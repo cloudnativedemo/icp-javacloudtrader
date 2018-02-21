@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: db2config
+data:
+  DBServer: "10.0.0.139"
+  DBPort: "50000"
+  DBName: "tradedb"

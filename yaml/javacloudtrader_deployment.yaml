@@ -1,0 +1,44 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: javacloudtrader
+spec:
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: javacloudtrader
+    spec:
+      containers:
+      - name: javacloudtrader
+        image: icpcluster.icp:8500/default/javacloudtrader:1.0
+        env:
+          - name: DBName
+            valueFrom:
+              configMapKeyRef:
+                name: db2config
+                key: DBName
+          - name: DBServer
+            valueFrom:
+              configMapKeyRef:
+                name: db2config
+                key: DBServer
+          - name: DBPort
+            valueFrom:
+              configMapKeyRef:
+                name: db2config
+                key: DBPort
+          - name: DBUsername
+            valueFrom:
+              secretKeyRef:
+                name: db2secret
+                key: username
+          - name: DBPassword
+            valueFrom:
+              secretKeyRef:
+                name: db2secret
+                key: password
+        ports:
+          - containerPort: 9080
+          - containerPort: 9443
+        imagePullPolicy: Always
